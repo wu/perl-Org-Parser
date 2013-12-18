@@ -104,7 +104,7 @@ sub _parse_timestamp {
                  (?:\s+(?<repeater>
                          (?<repeater_prefix> \+\+|\.\+|\+)
                          (?<repeater_interval> $num_re)
-                         (?<repeater_unit> [dwmy])
+                         (?<repeater_unit> [hdwmy])
                      )
                      \/?(?<repeater_max>
                      (?:(?<repeater_interval_max> $num_re)
@@ -159,7 +159,10 @@ sub _parse_timestamp {
         my $r;
         my $i = $+{repeater_interval};
         my $u = $+{repeater_unit};
-        if ($u eq 'd') {
+        if ($u eq 'h') {
+            $r = DateTime::Event::Recurrence->hourly(
+                interval=>$i, start=>$dt);
+        } elsif ($u eq 'd') {
             $r = DateTime::Event::Recurrence->daily(
                 interval=>$i, start=>$dt);
         } elsif ($u eq 'w') {
@@ -182,7 +185,8 @@ sub _parse_timestamp {
     if ($+{warning_period}) {
         my $i = $+{warning_period_interval};
         my $u = $+{warning_period_unit};
-        if ($u eq 'd') {
+        if ($u eq 'h') {
+        } elsif ($u eq 'd') {
         } elsif ($u eq 'w') {
         } elsif ($u eq 'm') {
         } elsif ($u eq 'y') {

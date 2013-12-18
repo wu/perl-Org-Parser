@@ -94,8 +94,9 @@ test_parse(
 <2011-05-25 Wed ++5m>
 <2011-05-25 Wed .+6m>
 <2011-05-25 Wed +17.1m -13.2d>
+[2011-03-23 Wed 11:00 +1h]
 _
-    num => 7,
+    num => 8,
     test_after_parse => sub {
         my %args  = @_;
         my $doc   = $args{result};
@@ -108,6 +109,8 @@ _
         is($elems->[5]->_repeater, ".+6m", "[5] _repeater");
         is($elems->[6]->_repeater, "+17.1m", "[6] _repeater");
         is($elems->[6]->_warning_period, "-13.2d", "[6] _warning_period");
+
+        is($elems->[7]->_repeater, "+1h", "[7] _repeater in hours");
 
         ok($elems->[0]->recurrence->isa('DateTime::Set::ICal'),
            "[0] recurrence");
